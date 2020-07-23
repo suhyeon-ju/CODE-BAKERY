@@ -1,0 +1,44 @@
+.form-control{
+	.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 
+}
+.title{
+	font-size : 1.4em;
+	color : #ff6633;
+	display : table;
+	margin-right : auto;
+	text-indent : 0;
+}
+body{
+	background-color:#F6F4F3;
+}
+.hgroup .post-meta {
+    display: block;
+    font-size: 0.8125em;
+    color: #999;
+}
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, figure {
+    margin: 0;
+    padding: 0;
+}
+.post-meta a {
+    text-decoration: none;
+    color: #999;
+}
+.post-meta span:before {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    margin: 0 7px 0 10px;
+    background-color: #ebebeb;
+    vertical-align: baseline;
+}
+.answer{
+	width:100%;
+	
+}

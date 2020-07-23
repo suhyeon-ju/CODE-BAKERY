@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice">
+
+	<resultMap type="NoticeDto" id="NoticeMap">
+		<result property="notice_No" column="NOTICE_NO" />
+		<result property="notice_Title" column="NOTICE_TITLE" />
+		<result property="notice_Content" column="NOTICE_CONTENT" />
+		<result property="notice_Date" column="NOTICE_DATE" />
+		<result property="notice_Views" column="NOTICE_VIEWS" />
+		<result property="user_Id" column="USER_ID" />
+	</resultMap>
+
+	<select id="selectList" resultMap="NoticeMap"
+		parameterType="java.util.HashMap">
+		SELECT * FROM (SELECT ROWNUM RN, A.* FROM (SELECT * FROM
+		NOTICE ORDER BY
+		NOTICE_NO DESC ) A)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+
+	<select id="selectOne" parameterType="int"
+		resultType="NoticeDto">
+		SELECT NOTICE_NO, NOTICE_TITLE, USER_ID, NOTICE_CONTENT
+		FROM NOTICE
+		WHERE NOTICE_NO = #{notice_No}
+	</select>
+
+	<insert id="insert" parameterType="NoticeDto">
+		INSERT INTO NOTICE
+		VALUES(NOTICESEQ.NEXTVAL, #{notice_Title}, #{notice_Content}, CURRENT_TIMESTAMP,
+		0, '시스템관리자')
+	</insert>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM NOTICE
+		WHERE
+		NOTICE_NO = #{notice_No}
+	</delete>
+
+	<update id="update" parameterType="NoticeDto">
+		UPDATE NOTICE
+		SET NOTICE_TITLE
+		= #{notice_Title}, NOTICE_CONTENT = #{notice_Content}
+		WHERE NOTICE_NO =
+		#{notice_No}
+	</update>
+
+	<update id="viewUpdate" parameterType="int">
+		UPDATE NOTICE
+		SET
+		NOTICE_VIEWS = NVL( NOTICE_VIEWS, 0 ) + 1
+		WHERE NOTICE_NO =
+		#{notice_No}
+	</update>
+
+	<select id="pageCnt" resultType="int">
+		SELECT count(NOTICE_NO) FROM
+		NOTICE
+	</select>
+	<select id="noticeList" resultMap="NoticeMap">
+		SELECT * FROM ( SELECT * FROM NOTICE ORDER BY NOTICE_NO
+		DESC ) 	<!--[CDATA[WHERE ROWNUM <=5 ]] -->
+	</select>
+
+</mapper>

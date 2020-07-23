@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="question">
+  
+  	<resultMap type="QuestionDto" id="questionMap">
+  		<result property="question_No" column="QUESTION_NO" />
+  		<result property="question_Title" column="QUESTION_TITLE"/>
+  		<result property="question_Content" column="QUESTION_CONTENT" />
+  		<result property="question_Date" column="QUESTION_DATE" />
+  		<result property="question_Views" column="QUESTION_VIEWS" />
+  		<result property="question_Tag" column="QUESTION_TAG" />
+  		<result property="user_Id" column="USER_ID" />
+  		
+  	</resultMap>
+  	
+  	<select id="selectList" resultType="QuestionDto" parameterType="java.util.HashMap">
+  		SELECT *
+		FROM (SELECT ROWNUM RN, A.*
+			  FROM (SELECT *
+			  		FROM QUESTION
+			  		ORDER BY QUESTION_NO DESC) A
+			  )
+		WHERE RN BETWEEN #{start} AND #{end}
+  	</select>
+  	
+  	<select id="selectOne" parameterType="int" resultType="QuestionDto">
+  		SELECT *
+  		FROM QUESTION
+  		WHERE QUESTION_NO=#{question_No}
+  	</select>
+  	
+  	<insert id="insert" parameterType="QuestionDto">
+  		INSERT INTO QUESTION
+  		VALUES(QUESTIONSEQ.NEXTVAL, #{question_Title}, #{question_Content}, CURRENT_TIMESTAMP, 0, #{question_Tag}, #{user_Id})
+  	</insert>
+ 
+	<delete id="delete" parameterType="int">
+		DELETE FROM QUESTION
+		WHERE QUESTION_NO=#{question_No}
+	</delete> 
+	
+	<update id="update" parameterType="QuestionDto">
+		UPDATE QUESTION
+		SET QUESTION_TITLE=#{question_Title}, QUESTION_CONTENT=#{question_Content}, QUESTION_TAG = #{question_Tag}
+		WHERE QUESTION_NO=#{question_No}
+	</update>
+	
+	<!-- 조회수 증가 -->
+	<update id="plusCnt" parameterType="int">
+		UPDATE QUESTION
+		SET QUESTION_VIEWS = QUESTION_VIEWS + 1
+		WHERE QUESTION_NO=#{question_No}
+	</update>
+	
+	
+	<!-- 총 게시글 갯수 출력 -->
+	<select id="countBoard" resultType="int">
+		SELECT COUNT(*)
+		FROM QUESTION
+	</select>
+	
+	<select id="tagList" resultType="QuestionDto" parameterType="java.util.HashMap">
+		SELECT *
+		FROM (SELECT ROWNUM RN, A.*
+			  FROM (SELECT *
+			  		FROM QUESTION
+			  		WHERE QUESTION_TAG LIKE '%'||#{question_Tag}||'%'
+			  		ORDER BY QUESTION_NO DESC) A
+			  )
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<select id="countTags" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM QUESTION
+		WHERE QUESTION_TAG LIKE '%'||#{question_Tag}||'%'
+	</select>
+	
+	
+	<select id="count" resultType="int">
+		SELECT COUNT(*) 
+		FROM QUESTION
+	</select>
+	
+	<select id="questionList" resultMap="questionMap">
+	 	SELECT * 
+	 	FROM ( SELECT * 
+				FROM QUESTION 
+				ORDER BY QUESTION_NO DESC ) 	<!--[CDATA[WHERE ROWNUM <=5 ]] -->
+	</select>
+ </mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.mvc.cb.model.dto.UserDto"
+			alias="UserDto" />
+		<typeAlias type="com.mvc.cb.model.dto.QuizDto"
+			alias="quizDto" />
+		<typeAlias type="com.mvc.cb.model.dto.MentorDto"
+			alias="MentorDto" />
+		<typeAlias type="com.mvc.cb.model.dto.MentorReviewDto"
+			alias="MentorReviewDto" />
+		<typeAlias type="com.mvc.cb.model.dto.UserDto"
+			alias="UserDto" />
+		<typeAlias type="com.mvc.cb.model.dto.QuizDto"
+			alias="quizDto" />
+		<typeAlias type="com.mvc.cb.model.dto.QuizResultDto"
+			alias="quizResultDto" />
+		<typeAlias type="com.mvc.cb.model.dto.TryQuizDto"
+			alias="tryQuizDto" />
+		<typeAlias type="com.mvc.cb.model.dto.NoticeDto"
+			alias="NoticeDto" />
+		<typeAlias type="com.mvc.cb.model.dto.NoticeCommentDto"
+			alias="NoticeCommentDto" />
+		<typeAlias type="com.mvc.cb.model.dto.QuestionDto"
+			alias="QuestionDto" />
+		<typeAlias type="com.mvc.cb.model.dto.AnswerDto"
+			alias="AnswerDto" />
+		<typeAlias type="com.mvc.cb.model.dto.QnACommentDto"
+			alias="QnACommentDto" />
+		<!-- 포인트 내역 추가부분 -->
+		<typeAlias type="com.mvc.cb.model.dto.PointDto"
+			alias="PointDto" />
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="/mybatis/user-mapper.xml" />
+		<mapper resource="/mybatis/quiz-mapper.xml" />
+		<mapper resource="/mybatis/mentor-mapper.xml" />
+		<mapper resource="/mybatis/quizResult-mapper.xml" />
+		<mapper resource="/mybatis/question-mapper.xml" />
+		<mapper resource="/mybatis/answer-mapper.xml" />
+		<mapper resource="/mybatis/qcomment-mapper.xml" />
+		<mapper resource="/mybatis/mentorReview-mapper.xml" />
+		<mapper resource="/mybatis/notice-mapper.xml" />
+		<mapper resource="/mybatis/notice_comment-mapper.xml" />
+
+
+		<!-- 포인트 내역 추가부분 -->
+		<mapper resource="/mybatis/point-mapper.xml" />
+
+	</mappers>
+</configuration>

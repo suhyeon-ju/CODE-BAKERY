@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="answer">
+  
+  	<resultMap type="AnswerDto" id="answerMap">
+		<result property="answer_No" column="ANSWER_NO" />  	
+  		<result property="answer_Title" column="ANSWER_TITLE" />
+  		<result property="answer_Content" column="ANSWER_CONTENT" />
+  		<result property="answer_Date" column="ANSWER_DATE" />
+  		<result property="question_No" column="QUESTION_NO" />
+  		<result property="user_Id" column="USER_ID" />
+  		
+  	</resultMap>
+  	
+  	<select id="selectList" resultMap="answerMap">
+  		SELECT * 
+  		FROM ANSWER
+  		WHERE QUESTION_NO=#{question_No}
+  		ORDER BY ANSWER_NO DESC
+  	</select>
+  
+  	<delete id="delete" parameterType="int">
+  		DELETE FROM ANSWER
+  		WHERE ANSWER_NO=#{answer_No}
+  	</delete>
+  
+  	<update id="update" parameterType="AnswerDto">
+  		UPDATE ANSWER
+  		SET ANSWER_TITLE=#{answer_Title}, ANSWER_CONTENT=#{answer_Content}
+  		WHERE ANSWER_NO=#{answer_No}
+  	</update>
+  
+  	<insert id="insert" parameterType="AnswerDto">
+  		INSERT INTO ANSWER
+  		VALUES(ANSWERSEQ.NEXTVAL, #{answer_Title}, #{answer_Content}, CURRENT_TIMESTAMP, #{question_No}, #{user_Id})
+  	</insert>
+  	
+  	<select id="cntAnswer" parameterType="int">
+  		SELECT COUNT(*)
+  		FROM ANSWER
+  		WHERE QUESTION_NO = #{question_No}
+  	</select>
+  	
+  	<!-- 총 게시글 갯수 출력 -->
+	<select id="countAnswer" resultType="int" parameterType="int">
+		SELECT COUNT(*)
+		FROM ANSWER
+		WHERE QUESTION_NO = #{question_No}
+	</select> 
+ 
+ 	<select id="count" resultType="int">
+		SELECT COUNT(*) 
+		FROM ANSWER
+	</select>
+  
+  <!--[CDATA[WHERE ROWNUM <=5 ]] -->
+  	<select id="answerList" resultMap="answerMap">
+		 SELECT * 
+		 FROM ( SELECT * 
+		 		FROM ANSWER 
+		 		ORDER BY ANSWER_NO DESC ) 	
+	</select>
+	
+	<select id="selectOne" resultType="AnswerDto" parameterType="AnswerDto">
+		SELECT * 
+		FROM ANSWER 
+		WHERE ANSWER_NO = #{answer_No} AND QUESTION_NO = #{question_No}
+	</select>
+	
+  </mapper>

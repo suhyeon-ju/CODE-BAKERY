@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mentorReview">
+	<resultMap type="MentorReviewDto" id="MentorReviewMap">
+		<result property="review_No" column="REVIEW_NO" />
+		<result property="review_Content" column="REVIEW_CONTENT" />
+		<result property="review_Date" column="REVIEW_DATE" />
+		<result property="user_Id" column="USER_ID" />
+		<result property="mentor_No" column="MENTOR_NO" />
+	</resultMap>
+
+
+	<select id="mentorReviewAll" resultMap="MentorReviewMap" parameterType="int">
+		SELECT * FROM
+		MENTOR_REVIEW
+		WHERE MENTOR_NO = #{mentor_No}
+	</select>
+	
+	<insert id="ReviewInsert" parameterType="mentorReviewDto">
+	INSERT INTO MENTOR_REVIEW VALUES(REVIEWSEQ.NEXTVAL,#{review_Content},CURRENT_TIMESTAMP,#{user_Id},#{mentor_No})
+	</insert>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice_comment">
+
+	<resultMap type="NoticeCommentDto" id="NoticeCommentMap">
+		<result property="comment_No" column="NCOMMNET_NO" />
+		<result property="notice_No" column="NOTICE_NO" />
+		<result property="comment_Content" column="NCOMMENT_CONTENT" />
+		<result property="comment_Date" column="NCOMMENT_DATE" />
+		<result property="user_Id" column="USER_ID" />
+	</resultMap>
+
+	<select id="selectList" parameterType="int"
+		resultMap="NoticeCommentMap">
+		SELECT * FROM NOTICE_COMMENT
+		WHERE NOTICE_NO = #{notice_No}
+	</select>
+
+	<insert id="insert" parameterType="NoticeCommentDto">
+		INSERT INTO NOTICE_COMMENT
+		VALUES(NCOMMENTSEQ.NEXTVAL, #{notice_No}, #{comment_Content}, CURRENT_TIMESTAMP, #{user_Id})
+	</insert>
+	<delete id="delete" parameterType="int">
+		DELETE FROM NOTICE_COMMENT
+		WHERE
+		NCOMMNET_NO = #{comment_No}
+	</delete>
+</mapper>

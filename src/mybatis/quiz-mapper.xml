@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="quiz">
+	<resultMap type="quizDto" id="quizMap">
+		<result property="quiz_No" column="QUIZ_NO" />
+		<result property="quiz_Title" column="QUIZ_TITLE" />
+		<result property="quiz_Content" column="QUIZ_CONTENT" />
+		<result property="quiz_Date" column="QUIZ_DATE" />
+		<result property="correct_User" column="CORRECT_USER" />
+		<result property="try_User" column="TRY_USER" />
+		<result property="correct_Rate" column="CORRECT_RATE" />
+		<result property="quiz_Views" column="QUIZ_VIEWS" />
+		<result property="input_Explanation" column="INPUT_EXPLANATION" />
+		<result property="output_Explanation"
+			column="OUTPUT_EXPLANATION" />
+		<result property="input_Sample" column="INPUT_SAMPLE" />
+		<result property="output_Sample" column="OUTPUT_SAMPLE" />
+		<result property="user_Id" column="USER_ID" />
+	</resultMap>
+
+	<select id="selectList" resultMap="quizMap">
+		SELECT *
+		FROM QUIZ
+		ORDER BY QUIZ_NO DESC
+	</select>
+
+	<select id="selectList2" resultMap="quizMap">
+		SELECT * FROM QUIZ JOIN QUIZ_RESULT ON QUIZ.QUIZ_NO = QUIZ_RESULT.QUIZ_NO
+		ORDER BY QUIZ.QUIZ_NO DESC
+	</select>
+
+	<select id="selectOne" resultType="quizDto">
+		SELECT * FROM QUIZ
+		WHERE QUIZ_NO = #{quiz_No}
+	</select>
+
+	<insert id="insert" parameterType="quizDto">
+		INSERT INTO QUIZ
+		VALUES(QUIZSEQ.NEXTVAL, #{quiz_Title}, #{quiz_Content}, SYSDATE, 0, 0, 0, 0,
+		#{input_Explanation}, #{output_Explanation}, #{input_Sample},
+		#{output_Sample}, #{user_Id})
+	</insert>
+
+	<select id="count" resultType="int">
+		SELECT COUNT(*) FROM QUIZ
+	</select>
+
+	<select id="quizList" resultMap="quizMap">
+		SELECT * FROM ( SELECT * FROM QUIZ ORDER BY QUIZ_NO
+		DESC ) 	<!-- [CDATA[WHERE ROWNUM <=5 ]] -->
+	</select>
+
+	<update id="update">
+		UPDATE QUIZ SET CORRECT_USER = #{correct_User}, TRY_USER = #{try_User},
+		CORRECT_RATE = #{correct_Rate} WHERE QUIZ_NO = #{quiz_No}
+	</update>
+</mapper>

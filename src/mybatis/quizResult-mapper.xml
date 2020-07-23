@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="quizResult">
+  	<resultMap type="quizResultDto" id="quizResultMap">
+  		<result property="quiz_No" column="QUIZ_NO" />
+  		<result property="code_Content" column="CODE_CONTENT"/>
+  		<result property="ex_Result" column="QUIZ_CONTENT"/>
+  		<result property="print_Result" column="PRINT_RESULT"/>
+  		<result property="quiz_Result" column="QUIZ_RESULT"/>
+  		<result property="user_Id" column="USER_ID"/>
+  	</resultMap>
+  	
+  	<select id="selectList" resultMap="quizResultMap">
+  		SELECT *
+  		FROM QUIZ_RESULT
+  		WHERE USER_ID = #{user_Id}
+  		ORDER BY QUIZ_NO DESC
+  	</select>
+  	
+  	<select id="selectOne" resultType="quizResultDto">
+  		SELECT * FROM QUIZ_RESULT WHERE USER_ID = #{user_Id} AND QUIZ_NO = #{quiz_No}
+  	</select>
+  	
+  	<insert id="insert">
+  		INSERT INTO QUIZ_RESULT
+  		VALUES(#{user_Id}, #{quiz_No}, #{code_Content}, #{ex_Result}, #{print_Result}, #{quiz_Result} )
+  	</insert>
+  	
+  	<update id="update">
+  		UPDATE QUIZ_RESULT SET CODE_CONTENT = #{code_Content}, PRINT_RESULT = #{print_Result}, QUIZ_RESULT = #{quiz_Result} WHERE QUIZ_NO = #{quiz_No} AND USER_ID = #{user_Id} 
+  	</update>
+  </mapper>

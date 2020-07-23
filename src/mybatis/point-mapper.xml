@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="point">
+	
+	<resultMap type="PointDto" id="PointMap">
+  		<result property="point_Date" column="POINT_DATE"/>
+  		<result property="point_Charge" column="POINT_CHARGE"/>
+  		<result property="point_Use" column="POINT_USE"/>
+  		<result property="point_History" column="POINT_HISTORY"/>
+  		<result property="user_Id" column="USER_ID"/>
+  		
+  	</resultMap>
+	
+	<select id="selectList" parameterType="PointDto" resultMap="PointMap">
+        SELECT ROWNUM, POINT_DATE, POINT_CHARGE, POINT_USE, POINT_HISTORY FROM POINT_TB
+        WHERE USER_ID = #{user_Id}
+        ORDER BY POINT_NO
+     </select>
+  	<insert id="insert" parameterType="PointDto">
+  		INSERT INTO POINT_TB
+  		VALUES(POINTSEQ.NEXTVAL, CURRENT_TIMESTAMP, #{point_Charge}, 0,'충전', #{user_Id})
+  	</insert>
+  	<insert id="insert_use" parameterType="PointDto">
+        INSERT INTO POINT_TB
+        VALUES(POINTSEQ.NEXTVAL, CURRENT_TIMESTAMP, 0, #{point_Use}, #{point_History}, #{user_Id})
+     </insert>
+
+</mapper>

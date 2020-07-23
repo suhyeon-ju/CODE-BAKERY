@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mentor">
+
+	<resultMap type="MentorDto" id="MentorMap">
+		<result property="user_Id" column="USER_ID" />
+		<result property="mentor_No" column="MENTOR_NO" />
+		<result property="mentor_Career" column="MENTOR_CAREER" />
+		<result property="mentor_Content" column="MENTOR_CONTENT" />
+		<result property="user_Pw" column="USER_PW" />
+		<result property="user_Grade" column="USER_GRADE" />
+		<result property="user_Name" column="USER_NAME" />
+		<result property="user_Phone" column="USER_PHONE" />
+		<result property="user_Mail" column="USER_MAIL" />
+		<result property="user_Point" column="USER_POINT" />
+		<result property="user_Pic" column="USER_PIC" />
+		<result property="user_Lang" column="USER_LANG" />
+	</resultMap>
+
+	<select id="mentorAll" resultMap="MentorMap">
+		SELECT * FROM MENTOR_INTRO
+		JOIN
+		USER_TB USING(USER_ID)
+	</select>
+
+	<select id="selectOne" parameterType="int"
+		resultType="MentorDto">
+		SELECT * FROM MENTOR_INTRO JOIN USER_TB USING(USER_ID)
+		WHERE MENTOR_NO = #{mentor_no}
+	</select>
+	<insert id="insert" parameterType="MentorDto">
+		INSERT INTO MENTOR_INTRO
+		VALUES(MENTORSEQ.NEXTVAL,#{mentor_Career},#{mentor_Content},#{user_Id})
+	</insert>
+</mapper>

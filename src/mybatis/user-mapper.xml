@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="myuser">
+	<resultMap type="UserDto" id="UserMap">
+		<result property="user_Id" column="USER_ID" />
+		<result property="user_Pw" column="USER_PW" />
+		<result property="user_Grade" column="USER_GRADE" />
+		<result property="user_Name" column="USER_NAME" />
+		<result property="user_Phone" column="USER_PHONE" />
+		<result property="user_Mail" column="USER_MAIL" />
+		<result property="user_Point" column="USER_POINT" />
+		<result property="user_Pic" column="USER_PIC" />
+		<result property="user_Lang" column="USER_LANG" />
+	</resultMap>
+
+	<insert id="insert" parameterType="UserDto">
+		INSERT INTO USER_TB
+		VALUES(#{user_Id},#{user_Pw},'일반회원',#{user_Name},#{user_Phone},#{user_Mail},#{user_Point},#{user_Pic},#{user_Lang})
+	</insert>
+
+	<select id="login" parameterType="UserDto" resultType="UserDto">
+		SELECT *
+		FROM USER_TB WHERE USER_ID = #{user_Id} and USER_PW = #{user_Pw}
+	</select>
+
+	<select id="idcheck" parameterType="String" resultType="UserDto">
+		SELECT *
+		FROM USER_TB WHERE USER_ID = #{user_Id}
+	</select>
+
+	<select id="getInfo" parameterType="UserDto"
+		resultType="UserDto">
+		SELECT USER_ID, USER_PW, USER_NAME, USER_PHONE, USER_MAIL,
+		USER_POINT,
+		USER_LANG
+		FROM USER_TB
+		WHERE USER_ID=#{user_Id}
+	</select>
+
+
+	<delete id="member_delete" parameterType="UserDto">
+		DELETE FROM USER_TB
+		WHERE USER_ID = #{user_Id} AND USER_PW = #{user_Pw}
+	</delete>
+
+	<update id="memberUpdate" parameterType="UserDto">
+		UPDATE USER_TB
+		SET
+		USER_PW = #{user_Pw},
+		USER_NAME = #{user_Name},
+		USER_PHONE =
+		#{user_Phone},
+		USER_MAIL = #{user_Mail},
+		USER_PIC = #{user_Pic}
+		WHERE
+		USER_ID = #{user_Id}
+	</update>
+
+	<!-- 관리자 유저 리스트 -->
+	<select id="userList" resultMap="UserMap">SELECT * FROM USER_TB</select>
+	<!-- 관리자 등급조정 -->
+	<update id="adjust" parameterType="UserDto">
+		UPDATE USER_TB SET USER_GRADE
+		= #{user_Grade} WHERE USER_ID = #{user_Id}
+	</update>
+	<!-- 관리자 등급 변경 -->
+	<select id="selectOne" parameterType="String"
+		resultType="UserDto">SELECT * FROM USER_TB WHERE USER_ID = #{user_Id}</select>
+
+	<!-- point charge 포인트 충전 -->
+	<update id="pointUpdate" parameterType="UserDto">
+		UPDATE USER_TB
+		SET
+		USER_POINT = #{user_Point}
+		WHERE USER_ID = #{user_Id}
+	</update>
+	
+	<select id="search" resultType="UserDto">
+		SELECT * FROM USER_TB
+		WHERE USER_Id = #{user_Id} AND USER_MAIL = #{user_Mail} AND USER_PHONE = #{user_Phone} 
+	</select>
+	
+	<select id="chkIdPw" parameterType="UserDto" resultType="UserDto">
+		SELECT * 
+		FROM USER_TB
+		WHERE USER_ID = #{user_Id} AND USER_PW = #{user_Pw}
+	</select>
+	
+	<select id="findId" parameterType="UserDto" resultType="UserDto">
+		SELECT *
+		FROM USER_TB
+		WHERE USER_NAME = #{user_Name} AND USER_MAIL = #{user_Mail}
+	</select>
+</mapper>
