@@ -5,13 +5,6 @@ GRANT CONNECT, RESOURCE, DBA TO CODEBAKERY;
 COMMIT;
 
 
-
-/*
-- NAME : CODEBAKERY
-- 사용자 이름 : CODEBAKERY
-- 비밀번호 : 1234 (비밀번호 저장해주기)
-*/
-
 ------------------------------------------
 
 SELECT * FROM QUIZ;
